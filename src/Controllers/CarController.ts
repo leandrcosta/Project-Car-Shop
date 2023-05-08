@@ -8,12 +8,16 @@ export default class CarController {
   private res: Response;
   private next: NextFunction;
   private service: CarService;
+  private messageInvalidId: string;
+  private messageCarNotFound: string;
 
   constructor(req: Request, res: Response, next: NextFunction) {
     this.req = req;
     this.res = res;
     this.next = next;
     this.service = new CarService();
+    this.messageInvalidId = 'Invalid mongo id';
+    this.messageCarNotFound = 'Car not found';
   }
 
   public async create() {
@@ -39,11 +43,11 @@ export default class CarController {
     const { id } = this.req.params;
     try {
       if (!isValidObjectId(id)) {
-        return this.res.status(422).json({ message: 'Invalid mongo id' });
+        return this.res.status(422).json({ message: this.messageInvalidId });
       }
       const carId = await this.service.getById(id);
       // console.log(carId);
-      if (!carId) return this.res.status(404).json({ message: 'Car not found' });
+      if (!carId) return this.res.status(404).json({ message: this.messageCarNotFound });
       return this.res.status(200).json(carId);
     } catch (error) {
       this.next(error);
@@ -55,13 +59,28 @@ export default class CarController {
     const obj = this.req.body;
     try {
       if (!isValidObjectId(id)) {
-        return this.res.status(422).json({ message: 'Invalid mongo id' });
+        return this.res.status(422).json({ message: this.messageInvalidId });
       }
 
       const updatedCar = await this.service.update(id, obj);
       // console.log(updatedCar);
-      if (!updatedCar) return this.res.status(404).json({ message: 'Car not found' });
+      if (!updatedCar) return this.res.status(404).json({ message: this.messageCarNotFound });
       return this.res.status(200).json(updatedCar);
+    } catch (error) {
+      this.next(error);
+    }
+  }
+
+  public async delete() {
+    const { id } = this.req.params;
+    try {
+      if (!isValidObjectId(id)) {
+        return this.res.status(422).json({ message: this.messageInvalidId });
+      }
+      const carRemovedId = await this.service.delete(id);
+      // console.log(carRemovedId);
+      if (!carRemovedId) return this.res.status(404).json({ message: this.messageCarNotFound });
+      return this.res.status(204).json({});
     } catch (error) {
       this.next(error);
     }

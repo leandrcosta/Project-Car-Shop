@@ -30,6 +30,10 @@ export default abstract class AbstractODM<T> {
       { new: true },
     );
   }
+
+  public async delete(_id:string): Promise<T | null> {
+    return this.model.findByIdAndRemove(_id);
+  }
 }
 // CODIGO AULA AO VIVO - Profº Will
 // https://github.com/tryber/sd-025-b-live-lectures/blob/lecture/back/12.2/trix/src/Models/AbstractODM.ts

@@ -38,4 +38,29 @@ describe('POST/motorcycles', function () {
     });
   });
   beforeEach(sinon.restore);
+
+  describe('GET/motorcycles/:id', function () {
+    describe('Buscando motorcycle pelo ID', function () {
+      it('Testa se é possível buscar uma motocycle existente pelo ID', async function () {
+        const motoId = '6348513f34c397abcad040b2';
+        const motorcycleOutput: Motorcycle = new Motorcycle({
+          id: motoId,
+          model: 'Honda Cb 300f Hornet',
+          year: 2005,
+          color: 'Yellow',
+          status: true,
+          buyValue: 30.000,
+          category: 'Street',
+          engineCapacity: 600,
+        });
+  
+        sinon.stub(Model, 'findById').resolves(motorcycleOutput);
+  
+        const service = new MotorcycleService();
+        const result = await service.getById(motoId);
+  
+        expect(result).to.be.deep.equal(motorcycleOutput);
+      });
+    });
+  });
 });
