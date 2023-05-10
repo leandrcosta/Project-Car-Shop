@@ -9,5 +9,6 @@ MotocycleRouter.post(
 );
 MotocycleRouter.get('/', (req, res, next) => new MotorcycleController(req, res, next).getAll());
 MotocycleRouter.get('/:id', (req, res, next) => new MotorcycleController(req, res, next).getById());
+MotocycleRouter.put('/:id', (req, res, next) => new MotorcycleController(req, res, next).update());
 
 export default MotocycleRouter;
