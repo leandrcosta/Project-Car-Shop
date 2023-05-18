@@ -35,4 +35,11 @@ export default class CarService {
     // console.log(motorcycleUpdate);
     return this.createCarDomain(motorcycleUpdate);
   }
+
+  public async delete(id: string): Promise<Motocycle | null> {
+    const motoODM = new MotorcycleODM();
+    const removedId = await motoODM.delete(id);
+    // console.log(removedId);
+    return this.createCarDomain(removedId);
+  }
 }

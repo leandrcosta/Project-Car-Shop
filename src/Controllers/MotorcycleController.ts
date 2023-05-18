@@ -8,12 +8,16 @@ export default class MotocycleController {
   private res: Response;
   private next: NextFunction;
   private service: MotocycleService;
+  private messageInvalidId: string;
+  private messageCarNotFound: string;
 
   constructor(req: Request, res: Response, next: NextFunction) {
     this.req = req;
     this.res = res;
     this.next = next;
     this.service = new MotocycleService();
+    this.messageInvalidId = 'Invalid mongo id';
+    this.messageCarNotFound = 'Motorcycle not found';
   }
 
   public async create() {
@@ -56,14 +60,29 @@ export default class MotocycleController {
     const obj = this.req.body;
     try {
       if (!isValidObjectId(id)) {
-        return this.res.status(422).json({ message: 'Invalid mongo id' });
+        return this.res.status(422).json({ message: this.messageInvalidId });
       }
       const updatedMoto = await this.service.update(id, obj);
       // console.log('MOTO ATUALIZADA', updatedMoto);
       if (!updatedMoto) {
-        return this.res.status(404).json({ message: 'Motorcycle not found' });
+        return this.res.status(404).json({ message: this.messageCarNotFound });
       }
       return this.res.status(200).json(updatedMoto);
+    } catch (error) {
+      this.next(error);
+    }
+  }
+
+  public async delete() {
+    const { id } = this.req.params;
+    try {
+      if (!isValidObjectId(id)) {
+        return this.res.status(422).json({ message: this.messageInvalidId });
+      }
+      const motoRemovedId = await this.service.delete(id);
+      // console.log(motoRemovedId);
+      if (!motoRemovedId) return this.res.status(404).json({ message: this.messageCarNotFound });
+      return this.res.status(204).json({});
     } catch (error) {
       this.next(error);
     }
