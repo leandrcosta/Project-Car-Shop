@@ -1,6 +1,6 @@
 # Boas-vindas ao repositório do projeto Car Shop!
 ---
-### Neste projeto foi desenvolvido uma aplicação onde foram aplicados os princípios de Programação Orientada a Objetos (`POO`) para a construção de uma API com `CRUD` para gerenciar uma concessionária de veículos. Isso será feito utilizando o banco de dados `MongoDB` através do framework do `Mongoose`.
+Neste projeto foi desenvolvido uma aplicação onde foram aplicados os princípios de Programação Orientada a Objetos (`POO`) para a construção de uma API com `CRUD` para gerenciar uma concessionária de veículos. Isso será feito utilizando o banco de dados `MongoDB` através do framework do `Mongoose`.
 - *Este projeto foi um dos primeiro após estudar principios de POO.*
 
 # Habilidades
